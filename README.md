@@ -1,6 +1,6 @@
-# {{ name }}
+# 小鹅学院
 
-> {{ description }}
+> 基于Nuxt.js实现的在线教育平台项目
 
 ## Build Setup
 

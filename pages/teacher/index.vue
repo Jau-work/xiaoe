@@ -53,12 +53,11 @@ import teacherApi from '~/api/teacher'
 export default {
   // 服务器端渲染方案:
   // 异步数据获取: 在前端服务器执行
-  asyncData() {
-    return teacherApi.getList().then(response => {
-      return {
-        items: response.data.items
-      }
-    })
+  async asyncData() {
+    const response = await teacherApi.getList()
+    return {
+      items: response.data.items
+    }
   }
 }
 </script>
