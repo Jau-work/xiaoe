@@ -9,7 +9,7 @@
     <script charset="utf-8" type="text/javascript" src="https://g.alicdn.com/de/prismplayer/2.8.2/aliplayer-min.js" />
 
     <!-- 定义播放器dom -->
-    <div id="J_prismPlayer" class="prism-player" style="width: 70%"/>
+    <div id="J_prismPlayer" class="prism-player" style="width: 70%; height: 520px;"/>
 
   </div>
 </template>

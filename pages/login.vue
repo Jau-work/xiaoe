@@ -34,8 +34,8 @@
       <div class="more-sign">
         <h6>社交帐号登录</h6>
         <ul>
-          <li><a id="weixin" class="weixin" href="http://localhost:8150/api/ucenter/wx/login"><i class="iconfont icon-weixin"/></a></li>
-          <li><a id="qq" class="qq" target="_blank" href="#"><i class="iconfont icon-qq"/></a></li>
+          <li><a id="weixin" class="weixin" href="http://localhost:8160/api/ucenter/wx/login"><i class="iconfont icon-weixin"/></a></li>
+          <!-- <li><a id="qq" class="qq" target="_blank" href="#"><i class="iconfont icon-qq"/></a></li> -->
         </ul>
       </div>
     </div>
@@ -45,6 +45,8 @@
 <script>
 import '~/assets/css/sign.css'
 import '~/assets/css/iconfont.css'
+import cookie from 'js-cookie'
+import loginApi from '~/api/login'
 
 export default {
   layout: 'sign',
@@ -61,7 +63,13 @@ export default {
   methods: {
     // 登录
     submitLogin() {
-
+      // 执行远程登录接口调用
+      loginApi.submitLogin(this.user).then(response => {
+        // 将jwt写入cookie
+        cookie.set('guli_jwt_token', response.data.token, { domain: 'localhost' })
+        // 跳转到网站的首页面
+        window.location.href = '/'
+      })
     }
   }
 }

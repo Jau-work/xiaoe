@@ -38,7 +38,6 @@
                 </section>
               </li>
             </ul>
-            <div class="clear"/>
           </article>
           <!-- /数据列表 结束-->
         </div>
