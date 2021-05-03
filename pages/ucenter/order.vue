@@ -65,6 +65,11 @@
                 <router-link v-if="scope.row.status === 1" :to="'/course/'+scope.row.courseId">
                   <el-button type="text" size="mini" icon="el-icon-edit">去学习</el-button>
                 </router-link>
+                <i
+                  style="cursor: pointer"
+                  title="删除订单"
+                  class="el-icon-delete"
+                  @click="removeById(scope.row.id)" />
               </template>
 
             </el-table-column>
@@ -91,6 +96,27 @@ export default {
     fetchOrderList() {
       orderApi.getList().then(response => {
         this.orderList = response.data.items
+      })
+    },
+    removeById(id) {
+      this.$confirm('确认要删除当前订单吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        return orderApi.removeById(id)
+      }).then((response) => {
+        this.fetchOrderList()
+        this.$message({
+          type: 'success',
+          message: response.message
+        })
+      }).catch(error => {
+        if (error === 'cancel') {
+          this.$message({
+            message: '取消删除'
+          })
+        }
       })
     }
   }
