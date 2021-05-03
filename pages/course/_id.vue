@@ -126,8 +126,22 @@
                             </a>
                             <ol class="lh-menu-ol" style="display: block">
                               <li v-for="video in chapter.children" :key="video.id" class="lh-menu-second ml30">
-                                <a :title="video.title" :href="'/player/'+video.videoSourceId" target="_blank">
-                                  <span v-if="video.free" class="fr">
+                                <a v-if="isBuy || course.price === 0" :title="video.title" :href="'/player/'+video.videoSourceId" target="_blank">
+                                  <span v-if="Number(course.price) !== 0 && video.free === true" class="fr">
+                                    <i class="free-icon vam mr10">免费试听</i>
+                                  </span>
+                                  <em class="lh-menu-i-2 icon16 mr5">&nbsp;</em
+                                  >{{ video.title }}
+                                </a>
+                                <a v-else-if="video.free === true" :title="video.title" :href="'/player/'+video.videoSourceId" target="_blank">
+                                  <span v-if="Number(course.price) !== 0 && video.free === true" class="fr">
+                                    <i class="free-icon vam mr10">免费试听</i>
+                                  </span>
+                                  <em class="lh-menu-i-2 icon16 mr5">&nbsp;</em
+                                  >{{ video.title }}
+                                </a>
+                                <a v-else :title="video.title">
+                                  <span v-if="Number(course.price) !== 0 && video.free === true" class="fr">
                                     <i class="free-icon vam mr10">免费试听</i>
                                   </span>
                                   <em class="lh-menu-i-2 icon16 mr5">&nbsp;</em
