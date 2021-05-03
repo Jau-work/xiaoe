@@ -71,8 +71,11 @@
                 <a class="c-fff vam" title="收藏" href="#">收藏</a>
               </span>
             </section>
-            <section class="c-attr-mt">
+            <!-- <section class="c-attr-mt">
               <a href="#" title="立即观看" class="comm-btn c-btn-3">立即观看</a>
+            </section> -->
+            <section class="c-attr-mt">
+              <a href="javascript:void(0)" title="立即观看" class="comm-btn c-btn-3" @click="createOrder">立即观看</a>
             </section>
           </section>
         </aside>
@@ -180,12 +183,25 @@
 
 <script>
 import courseApi from '~/api/course'
+import orderApi from '~/api/order'
+
 export default {
   async asyncData(page) {
     const response = await courseApi.getById(page.route.params.id)
     return {
       course: response.data.course,
       chapterList: response.data.chapterVoList
+    }
+  },
+  methods: {
+    // 下订单
+    createOrder() {
+      orderApi.createOrder(this.course.id).then(response => {
+        // 跳转到订单预览页面
+        this.$router.push({
+          path: '/order/' + response.data.orderId
+        })
+      })
     }
   }
 }
