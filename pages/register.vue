@@ -64,7 +64,7 @@
             <a
               id="weixin"
               class="weixin"
-              href="http://localhost:8150/api/ucenter/wx/login"
+              href="http://localhost:9110/api/ucenter/wx/login"
             ><i
               class="iconfont icon-weixin"
             /></a>

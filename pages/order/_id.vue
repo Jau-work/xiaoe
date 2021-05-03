@@ -1,5 +1,4 @@
 <template>
-
   <div class="Page Confirm">
     <div class="Title">
       <h1 class="fl f18">订单确认</h1>

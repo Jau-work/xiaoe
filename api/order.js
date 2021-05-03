@@ -17,21 +17,21 @@ export default {
   },
   isBuy(courseId) {
     return request({
-      baseURL: 'http://localhost:8170',
+      // baseURL: 'http://localhost:8170',
       url: `/api/trade/order/auth/is-buy/${courseId}`,
       method: 'get'
     })
   },
   getList() {
     return request({
-      baseURL: 'http://localhost:8170',
+      // baseURL: 'http://localhost:8170',
       url: '/api/trade/order/auth/list',
       method: 'get'
     })
   },
   removeById(orderId) {
     return request({
-      baseURL: 'http://localhost:8170',
+      // baseURL: 'http://localhost:8170',
       url: `/api/trade/order/auth/remove/${orderId}`,
       method: 'delete'
     })
