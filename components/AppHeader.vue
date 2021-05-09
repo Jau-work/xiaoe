@@ -27,22 +27,6 @@
         </ul>
         <!-- / nav -->
         <ul class="h-r-login">
-          <li v-if="!userInfo" id="no-login">
-            <a href="/login" title="登录">
-              <em class="icon18 login-icon">&nbsp;</em>
-              <span class="vam ml5">登录</span>
-            </a>
-            |
-            <a href="/register" title="注册">
-              <span class="vam ml5">注册</span>
-            </a>
-          </li>
-          <li v-if="userInfo" id="is-login-one" class="mr10">
-            <a id="headerMsgCountId" href="#" title="消息">
-              <em class="icon18 news-icon">&nbsp;</em>
-            </a>
-            <q class="red-point">&nbsp;</q>
-          </li>
           <li v-if="userInfo" id="is-login-two" class="h-r-user">
             <a href="/ucenter" title>
               <img
@@ -55,7 +39,23 @@
             </a>
             <a href="javascript:void(0);" title="退出" class="ml5" @click="logout">退出</a>
           </li>
-          <!-- /未登录显示第1 li；登录后显示第2，3 li -->
+          <li v-else id="no-login">
+            <a href="/login" title="登录">
+              <em class="icon18 login-icon">&nbsp;</em>
+              <span class="vam ml5">登录</span>
+            </a>
+            |
+            <a href="/register" title="注册">
+              <span class="vam ml5">注册</span>
+            </a>
+          </li>
+          <!-- <li v-if="userInfo" id="is-login-one" class="mr10">
+            <a id="headerMsgCountId" href="#" title="消息">
+              <em class="icon18 news-icon">&nbsp;</em>
+            </a>
+            <q class="red-point">&nbsp;</q>
+          </li> -->
+          <!-- /登录显示第1 li；未登录后显示第2 li -->
         </ul>
         <aside class="h-r-search">
           <form action="#" method="post">
@@ -85,41 +85,39 @@ export default {
 
   data() {
     return {
-      userInfo: null
+      userInfo: null,
+      token: ''
     }
   },
-
   created() {
+    this.token = this.$route.query.token
+    if (this.token) { // 判断路径是否有token值
+      this.wxLogin()
+    }
     this.getUserInfo()
   },
-
-  mounted() {
-    // 微信登录url token获取
-    const token = this.$route.query.token
-    if (this.token) {
-      // 将token存在cookie中
-      cookie.set('guli_jwt_token', token, { domain: 'localhost' })
-      // 跳转页面：擦除url中的token
-      // 注意：window对象在created方法中无法被访问，因此要写在mounted中
-      window.location.href = '/'
-    }
-  },
-
   methods: {
+    wxLogin() {
+      // 把token值放到cookie里面
+      cookie.set('guli_jwt_token', this.token, { domain: 'localhost' })
+      // 调用接口，根据token值获取用户信息
+      loginApi.getLoginInfo()
+        .then(response => {
+          this.userInfo = response.data.userInfo
+          cookie.set('guli_ucenter', this.userInfo, { domain: 'localhost' })
+        })
+    },
     getUserInfo() {
-      // 如果cookie中token不存在，则不显示用户信息
-      if (!cookie.get('guli_jwt_token')) {
-        return
+      // 如果token存在，则从cookie获取用户信息
+      const userStr = cookie.get('guli_ucenter')
+      if (userStr) {
+        this.userInfo = JSON.parse(userStr)
       }
-      // 如果token存在，则根据token解析用户登录信息
-      loginApi.getLoginInfo().then(response => {
-        // 渲染页面
-        this.userInfo = response.data.userInfo
-      })
     },
     logout() {
       // 清除cookie
       cookie.set('guli_jwt_token', '', { domain: 'localhost' })
+      cookie.set('guli_ucenter', '', { domain: 'localhost' })
       // 跳转到网站的首页面
       window.location.href = '/'
     }
