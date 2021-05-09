@@ -59,7 +59,6 @@ export default {
       }
     }
   },
-
   methods: {
     // 登录
     submitLogin() {
@@ -68,7 +67,12 @@ export default {
         // 将jwt写入cookie
         cookie.set('guli_jwt_token', response.data.token, { domain: 'localhost' })
         // 跳转到网站的首页面
-        window.location.href = '/'
+        // window.location.href = '/'
+        if (document.referrer.indexOf('register') !== -1) { // 如果上一页是注册页面，则跳转到网站的首页
+          window.location.href = '/'
+        } else {
+          history.go(-1) // 跳转到上一个刚刚访问的页面
+        }
       })
     }
   }

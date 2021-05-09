@@ -11,11 +11,11 @@
         </tr>
         <tr class="good">
           <td class="name First">
-            <a :href="'/course/'+order.courseId" target="_blank">
+            <a :href="'https://localhost:3000/course/'+order.courseId" target="_blank">
               <img :src="order.courseCover">
             </a>
             <div class="goodInfo">
-              <a :href="'/course/'+ order.courseId" target="_blank">{{ order.courseTitle }}</a>
+              <a :href="'https://localhost:3000/course/'+ order.courseId" target="_blank">{{ order.courseTitle }}</a>
             </div>
           </td>
           <td class="red priceNew Last">￥<strong>{{ order.totalFee/100 }}</strong></td>

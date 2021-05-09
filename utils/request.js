@@ -34,9 +34,15 @@ service.interceptors.response.use(
       return response.data
     } else if (res.code === 23004) { // 获取用户信息失败
       // 清除cookie
-      cookie.set('guli_jwt_token', response.data.token, { domain: 'localhost' })
+      cookie.set('guli_jwt_token', '', { domain: 'localhost' })
       return response.data
-    } else {
+    } else if (res.code === 25000) {
+      return response.data
+    } else if (res.code === 28004) { // 鉴权失败的响应码
+      // 跳转到登录页面
+      window.location.href = '/login'
+      return
+    } else { // 其他错误的结果
       Message({
         message: res.message || 'error',
         type: 'error',
